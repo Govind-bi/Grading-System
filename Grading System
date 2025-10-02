@@ -1,9 +1,3 @@
-# 🎓 SGPA Calculator (Theory + Labs)
-
-A Java program to calculate SGPA (Semester Grade Point Average) based on marks in Theory Subjects and Lab Subjects.  
-The program takes internal, external, attendance, and assignment/quiz marks as input, applies grade rules, and calculates SGPA.  
-
-
 ## 📌 Features
 - Separate input system for **Theory** and **Lab** subjects  
 - Calculates internal marks for Theory:
