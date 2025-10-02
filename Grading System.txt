@@ -1,0 +1,154 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.text.DecimalFormat;
+
+public class SGPAwithTheoryAndLabs_v2{
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        DecimalFormat df=new DecimalFormat("0.00");
+
+        System.out.print("Enter Number of Subjects:");
+        int n1=sc.nextInt();
+        System.out.print("Enter Number of Labs:");
+        int n2=sc.nextInt();
+
+        ArrayList<String> names=new ArrayList<>();
+        ArrayList<String> types=new ArrayList<>();
+        ArrayList<Double> internalsList=new ArrayList<>();
+        ArrayList<Double> externalsList=new ArrayList<>();
+        ArrayList<Double> totals=new ArrayList<>();
+        ArrayList<String> grades=new ArrayList<>();
+        ArrayList<Integer> gps=new ArrayList<>();
+        ArrayList<Float> creditsList=new ArrayList<>();
+        double totalPoints=0;
+        float totalCredits=0;
+        int subjCount=0;
+
+        for (int i=1;i<=n1;i++){
+            subjCount++;
+            System.out.println("\n Theory Subject " + i + "    ");
+            System.out.print("Enter subject name:");
+            String name=sc.next();
+
+            System.out.print("Enter Sessional 1 marks:");
+            double s1=sc.nextDouble();
+            System.out.print("Enter Sessional 2 marks:");
+            double s2=sc.nextDouble();
+            double best=Math.max(s1, s2);
+            double worst=Math.min(s1, s2);
+            double sessionalMarks=(0.8*best)+(0.2*worst);
+            System.out.print("Enter Quiz 1 marks:");
+            double q1=sc.nextDouble();
+            System.out.print("Enter Quiz 2 marks:");
+            double q2=sc.nextDouble();
+            System.out.print("Enter Assignment 1 marks:");
+            double a1=sc.nextDouble();
+            System.out.print("Enter Assignment 2 marks:");
+            double a2=sc.nextDouble();
+            double totalQA=q1+q2+a1+a2;
+            double quizAssignMarks=(totalQA/48.0)*7.0; 
+            System.out.print("Enter attendance percentage:");
+            double attendancePercent=sc.nextDouble();
+            int attendanceMarks;
+            if (attendancePercent>=90) attendanceMarks=5;
+            else if (attendancePercent>=85) attendanceMarks=4;
+            else if (attendancePercent>=80) attendanceMarks=3;
+            else if (attendancePercent>=75) attendanceMarks=2;
+            else if (attendancePercent>=70) attendanceMarks=1;
+            else attendanceMarks=0;
+
+            double internalMarks=sessionalMarks+quizAssignMarks+ attendanceMarks;
+
+            System.out.print("Enter External marks:");
+            double externalMarks=sc.nextDouble();
+
+            System.out.print("Enter credits for this subject:");
+            float credit=sc.nextFloat();
+
+            double totalMarks=internalMarks+externalMarks;
+            String grade;
+            int gp;
+            if (totalMarks<40) { grade="F"; gp=0; }
+            else if (totalMarks<=49) { grade="E"; gp=5; }
+            else if (totalMarks<=59) { grade="D"; gp=6; }
+            else if (totalMarks<=69) { grade="C"; gp=7; }
+            else if (totalMarks<=79) { grade="B"; gp=8; }
+            else if (totalMarks<=89) { grade="A"; gp=9; }
+            else { grade="A+"; gp=10; }
+
+            names.add(name);
+            types.add("Theory");
+            internalsList.add(internalMarks);
+            externalsList.add(externalMarks);
+            totals.add(totalMarks);
+            grades.add(grade);
+            gps.add(gp);
+            creditsList.add(credit);
+            totalPoints+=gp*credit;
+            totalCredits+=credit;
+        }
+        for (int i=1;i<= n2;i++){
+            subjCount++;
+            System.out.println("\n Lab Subject " + i + "    ");
+            System.out.print("Enter lab subject name:");
+            String name=sc.next();
+
+            System.out.print("Enter Lab Internal Marks:");
+
+            double internalMarks=sc.nextDouble();
+
+            System.out.print("Enter External marks:");
+            double externalMarks=sc.nextDouble();
+
+            System.out.print("Enter credits for this lab: ");
+            Float credit=sc.nextFloat();
+
+            double totalMarks=internalMarks+externalMarks;
+            String grade;
+            int gp;
+            if (totalMarks<40) { grade="F"; gp=0; }
+            else if (totalMarks<=49) { grade="E"; gp=5; }
+            else if (totalMarks<=59) { grade="D"; gp=6; }
+            else if (totalMarks<=69) { grade="C"; gp=7; }
+            else if (totalMarks<=79) { grade="B"; gp=8; }
+            else if (totalMarks<=89) { grade="A"; gp=9; }
+            else { grade="A+"; gp=10; }
+
+            names.add(name);
+            types.add("Lab");
+            internalsList.add(internalMarks);
+            externalsList.add(externalMarks);
+            totals.add(totalMarks);
+            grades.add(grade);
+            gps.add(gp);
+            creditsList.add(credit);
+            totalPoints+=gp*credit;
+            totalCredits+=credit;
+        }
+
+        System.out.println("\n\n================= MARKSHEET =================");
+        System.out.printf("%-4s %-12s %-8s %-10s %-10s %-8s %-4s\n",
+                "No", "Name", "Type", "Internal", "External", "Total", "Grade");
+        System.out.println("---------------------------------------------------------------");
+        for (int i=0;i<names.size();i++){
+            System.out.printf("%-4d %-12s %-8s %-10s %-10s %-10s %-8s\n",
+                    (i+1),
+                    names.get(i),
+                    types.get(i),
+                    df.format(internalsList.get(i)),
+                    df.format(externalsList.get(i)),
+                    df.format(totals.get(i)),
+                    grades.get(i));
+        }
+        System.out.println("---------------------------------------------------------------");
+
+        if (totalCredits==0) {
+            System.out.println("No credits entered. Cannot compute SGPA.");
+        } else {
+            double sgpa=totalPoints/totalCredits;
+            System.out.println("Total Credits ="+totalCredits);;
+            System.out.println("SGPA ="+df.format(sgpa));
+        }
+        sc.close();
+    }
+}
